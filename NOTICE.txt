@@ -1,0 +1,11 @@
+ProxyNagiosRest NOTICE
+===========
+
+Developed at Openfarm (http://www.openfarm.fr).
+
+Contributors and Copyright holders:
+
+ * Copyright 2013, Eric Michel <eric.michel@openfarm.fr>
+ * Copyright 2013, Guillaume Viel <guillaume.viel@openfarm.fr>
+ * Copyright 2013, Marco rodrigues <marco.rodrigues@openfarm.fr> 
+
