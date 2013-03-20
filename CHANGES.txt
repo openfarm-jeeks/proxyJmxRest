@@ -1,0 +1,2 @@
+release date=15:00 20.03.2013,version=1.0,urgency=low,by=Marco RODRIGUES <marco.rodrigues@openfarm.fr>,distribution=squeeze
+ * Initial build.

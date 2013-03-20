@@ -1,0 +1,10 @@
+Package: proxy-jms-rest
+Version: 1.0
+Section: net
+Priority: optional
+Maintainer: Marco RODRIGUES <marco.rodrigues@openfarm.fr>
+Architecture: all
+Distribution: squeeze
+Depends: tomcat6
+Description: REST proxy to JMX.
+ This is a Rest proxy to access to JMX data from java servers (usefull for monitoring tools as nagios).
