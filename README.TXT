@@ -20,6 +20,23 @@
 Setting logs directory: /var/log/proxyJMX/proxyJMX.log to modify it, change file log4j.xml in the war : WEB-INF directory
 
 
+JMX SECURITY :
+Launch JMV with option : -DconfigFilePath=%ConfigurationFilePath%
+Exemple of configuration file :
+<jmxConfiguration>
+	<accessList>
+		<accessConf>
+			<key>192.168.1.12:1099</key>
+			<login>monitorRole</login>
+			<password>passwd1</password>
+		</accessConf>
+		<accessConf>
+			<key>192.168.1.13:1099</key>
+			<login>monitorRole</login>
+			<password>passwd2</password>
+		</accessConf>
+	</accessList>
+</jmxConfiguration>
 
 
 Examples of use :
