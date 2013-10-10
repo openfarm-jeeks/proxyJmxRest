@@ -35,6 +35,12 @@
   <bean name="router" class="org.restlet.ext.spring.SpringBeanRouter" />
   
   <!-- Define all the routes -->
-  <bean name="/getJmxData" class="fr.openfarm.restlet.service.impl.GetJmxData" scope="prototype" autowire="byName" />
-  <bean name="/getKeysForObject" class="fr.openfarm.restlet.service.impl.GetKeysForObject" scope="prototype" autowire="byName" />
+  <bean name="/getJmxData" class="fr.openfarm.restlet.service.impl.GetJmxData" scope="prototype" autowire="byName">
+  	<property name="proxyConfig" ref="proxyConfig"/>
+  </bean>
+  <bean name="/getKeysForObject" class="fr.openfarm.restlet.service.impl.GetKeysForObject" scope="prototype" autowire="byName">
+  	<property name="proxyConfig" ref="proxyConfig"/>
+  </bean>
+  
+  <bean name="proxyConfig" class="fr.openfarm.jmx.utils.ProxyConfig"/>
 </beans>

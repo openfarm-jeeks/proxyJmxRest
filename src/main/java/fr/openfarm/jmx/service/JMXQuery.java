@@ -61,6 +61,12 @@ public class JMXQuery implements IJMXQuery
 	@Override
 	public void connect(String username, String password, String url) throws IOException {
 		Map<String, Object> environment = null;
+		if("".equals(username)){
+			username = null;
+		}
+		if("".equals(password)){
+			username = null;
+		}
 		if (username != null && password != null) {
             environment = new HashMap<String, Object>();
             environment.put(JMXConnector.CREDENTIALS, new String[] {username, password});
@@ -126,8 +132,10 @@ public class JMXQuery implements IJMXQuery
 
 	@Override
 	public void disconnect() throws IOException
-	{
-		connector.close();
+	{	
+		if(connector != null){
+			connector.close();
+		}
 	}
 
 

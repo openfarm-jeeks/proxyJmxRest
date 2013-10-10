@@ -29,6 +29,7 @@ import fr.openfarm.bean.request.GetJmxDataRequest;
 import fr.openfarm.bean.response.ErrorJmx;
 import fr.openfarm.bean.response.GetJmxDataResponse;
 import fr.openfarm.jmx.service.JMXQuery;
+import fr.openfarm.jmx.utils.ProxyConfig;
 import fr.openfarm.jmx.utils.jmxTools;
 import fr.openfarm.restlet.service.utils.RestletMessageConstants;
 
@@ -38,6 +39,7 @@ import fr.openfarm.restlet.service.utils.RestletMessageConstants;
  */
 public class GetJmxData extends ServerResource {
 	private static final Log log  = LogFactory.getLog(GetKeysForObject.class);
+	private ProxyConfig proxyConfig;
 	
 	/**
 	 * Get value for an jmxObject
@@ -56,8 +58,8 @@ public class GetJmxData extends ServerResource {
 		String property = getQuery().getValues("property");
 		String key = getQuery().getValues("key");
 
-		GetJmxDataRequest request = new GetJmxDataRequest(hostname, port, objectName, property, key);
 
+		GetJmxDataRequest request = new GetJmxDataRequest(hostname, port, objectName, property, key);
 		GetJmxDataResponse jmxResponse = new GetJmxDataResponse();
 
 		String validateResult = validateRequest(request);
@@ -71,7 +73,10 @@ public class GetJmxData extends ServerResource {
 		String jmxUrl = jmxTools.buildUrl(request.getServerJMX().getHostName(), request.getServerJMX().getPort());
 		JMXQuery jmxQuery = new JMXQuery();
 		try {
-			jmxQuery.connect(null, null, jmxUrl);
+			String login = proxyConfig.getUserName(request.getServerJMX().getHostName(),request.getServerJMX().getPort());
+			String password = proxyConfig.getPassword(request.getServerJMX().getHostName(),request.getServerJMX().getPort());
+			
+			jmxQuery.connect(login, password, jmxUrl);
 			String strResponse = jmxQuery.getJmxData(request.getJmxObject(), request.getJmxProperty(), request.getJmxKey());
 			jmxResponse.setResponse(strResponse);
 		} catch (Exception e) {
@@ -114,6 +119,10 @@ public class GetJmxData extends ServerResource {
 			return RestletMessageConstants.NO_TARGET_PROPERTY_SPECIFIED;
 		}
 		return null;
+	}
+
+	public void setProxyConfig(ProxyConfig proxyConfig) {
+		this.proxyConfig = proxyConfig;
 	}
 
 }

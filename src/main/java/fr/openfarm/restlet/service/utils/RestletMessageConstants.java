@@ -18,6 +18,10 @@
  */
 package fr.openfarm.restlet.service.utils;
 
+/**
+ * @author Openfarm
+ * Define Rest messages constant
+ */
 public class RestletMessageConstants {
 	public final static String NO_REQUEST = "no request set";
 	public final static String HOST_NOT_SET = "host not set";
