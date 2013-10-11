@@ -192,6 +192,13 @@
 					<excludes>
 						<exclude>LICENSE.txt</exclude>
 						<exclude>NOTICE.txt</exclude>
+						<exclude>CHANGES.txt</exclude>
+						<exclude>**/.gitignore</exclude>
+						<exclude>.project</exclude>
+						<exclude>.classpath</exclude>
+						<exclude>.tomcatplugin</exclude>
+						<exclude>src/deb/**/control</exclude>
+						<exclude>work/**/*</exclude>
 					</excludes>
 					<strictCheck>true</strictCheck>
 					<encoding>UTF-8</encoding>
