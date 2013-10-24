@@ -89,17 +89,22 @@ public class JMXQuery implements IJMXQuery
 	@Override
 	public String getJmxData(String name, String attributeName, String key) throws MalformedObjectNameException, NullPointerException, AttributeNotFoundException, InstanceNotFoundException, MBeanException, ReflectionException, IOException {
 		ObjectName objectName = new ObjectName(name);
-		Object attr = connection.getAttribute(objectName, attributeName);
-		if (attr instanceof CompositeDataSupport) {
-			CompositeDataSupport cds = (CompositeDataSupport) attr;
-			if (key == null) {
-				throw new IllegalArgumentException("Key is null for composed data " + name);
+		Set<ObjectName> objectNameList = connection.queryNames(objectName, null);
+		if(objectNameList != null && objectNameList.size()>0){
+			objectName = objectNameList.iterator().next();
+			Object attr = connection.getAttribute(objectName, attributeName);
+			if (attr instanceof CompositeDataSupport) {
+				CompositeDataSupport cds = (CompositeDataSupport) attr;
+				if (key == null) {
+					throw new IllegalArgumentException("Key is null for composed data " + name);
+				}
+				return cds.get(key).toString();
+				
+			} else {
+				return attr.toString();
 			}
-			return cds.get(key).toString();
-			
-		} else {
-			return attr.toString();
-		}
+		} 
+		return null;
 	}
 	
 
@@ -107,24 +112,28 @@ public class JMXQuery implements IJMXQuery
 	public List<KeyResponse> getJmxKeys(String name, String attributeName) throws MalformedObjectNameException, NullPointerException, AttributeNotFoundException, InstanceNotFoundException, MBeanException, ReflectionException, IOException{
 		List<KeyResponse> response = new ArrayList<KeyResponse>();
 		ObjectName objectName = new ObjectName(name);
-		Object attr = connection.getAttribute(objectName, attributeName);
-		if (attr instanceof CompositeDataSupport) {
-			CompositeDataSupport cds = (CompositeDataSupport) attr;
-			CompositeType type = cds.getCompositeType();
-			Set<String> listKey = type.keySet();
-			for(Object key : listKey){
-				if(key instanceof String){
-					Object value = cds.get((String) key);
-					KeyResponse keyResponse = new KeyResponse();
-					keyResponse.setKey(key.toString());
-					keyResponse.setValue(value.toString());
-					response.add(keyResponse);
-				}
-			}		
-		} else {
-			KeyResponse keyResponse = new KeyResponse();
-			keyResponse.setValue(attr.toString());
-			response.add(keyResponse);
+		Set<ObjectName> objectNameList = connection.queryNames(objectName, null);
+		if(objectNameList != null && objectNameList.size()>0){
+			objectName = objectNameList.iterator().next();
+			Object attr = connection.getAttribute(objectName, attributeName);
+			if (attr instanceof CompositeDataSupport) {
+				CompositeDataSupport cds = (CompositeDataSupport) attr;
+				CompositeType type = cds.getCompositeType();
+				Set<String> listKey = type.keySet();
+				for(Object key : listKey){
+					if(key instanceof String){
+						Object value = cds.get((String) key);
+						KeyResponse keyResponse = new KeyResponse();
+						keyResponse.setKey(key.toString());
+						keyResponse.setValue(value.toString());
+						response.add(keyResponse);
+					}
+				}		
+			} else {
+				KeyResponse keyResponse = new KeyResponse();
+				keyResponse.setValue(attr.toString());
+				response.add(keyResponse);
+			}
 		}
 		return response;
 	}
