@@ -6,7 +6,7 @@
 	<groupId>fr.openfarm</groupId>
 	<artifactId>proxyJmxRest</artifactId>
 	<packaging>war</packaging>
-	<version>0.2.0</version>
+	<version>1.0.0</version>
 	<name>Proxy JMX REST</name>
 
 	<repositories>
