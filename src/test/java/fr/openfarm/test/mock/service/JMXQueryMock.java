@@ -31,6 +31,8 @@ import javax.management.ReflectionException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import fr.openfarm.bean.response.GetMultiObjectKeysResponse;
+import fr.openfarm.bean.response.GetWildCardMultiDataResponse;
 import fr.openfarm.bean.response.KeyResponse;
 import fr.openfarm.jmx.service.IJMXQuery;
 import fr.openfarm.jmx.utils.jmxTools;
@@ -86,6 +88,22 @@ public class JMXQueryMock implements IJMXQuery {
 	@Override
 	public void disconnect() throws IOException {
 		log.debug("JMXQueryMock deco");
+	}
+
+
+	@Override
+	public GetWildCardMultiDataResponse getWildCardJmxData(String name, String attributeName, String key) throws MalformedObjectNameException, NullPointerException,
+			AttributeNotFoundException, InstanceNotFoundException, MBeanException, ReflectionException, IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public GetMultiObjectKeysResponse getWildcardJmxKeys(String name, String attributeName) throws MalformedObjectNameException, NullPointerException, AttributeNotFoundException,
+			InstanceNotFoundException, MBeanException, ReflectionException, IOException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -42,7 +42,12 @@ import javax.management.remote.JMXServiceURL;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import fr.openfarm.bean.response.ErrorJmx;
+import fr.openfarm.bean.response.GetMultiObjectKeysResponse;
+import fr.openfarm.bean.response.GetWildCardMultiDataResponse;
 import fr.openfarm.bean.response.KeyResponse;
+import fr.openfarm.bean.response.MultiObjectKeys;
+import fr.openfarm.bean.response.ObjectNameAndKey;
 
 /**
  * Object that drive jmx requests
@@ -107,6 +112,39 @@ public class JMXQuery implements IJMXQuery
 		return null;
 	}
 	
+	@Override
+	public GetWildCardMultiDataResponse getWildCardJmxData(String name, String attributeName, String key) throws MalformedObjectNameException, NullPointerException, AttributeNotFoundException, InstanceNotFoundException, MBeanException, ReflectionException, IOException {
+		ObjectName objectName = new ObjectName(name);
+		Set<ObjectName> objectNameList = connection.queryNames(objectName, null);
+		GetWildCardMultiDataResponse response = new GetWildCardMultiDataResponse();
+		List<ObjectNameAndKey> objectAndkeyList= new ArrayList<ObjectNameAndKey>();
+		for(ObjectName iterName:objectNameList){
+			objectName = iterName;
+			ObjectNameAndKey objectAndKey = new ObjectNameAndKey();
+			objectAndKey.setObjectName(objectName.getCanonicalName());
+			Object attr = connection.getAttribute(objectName, attributeName);
+			if (attr instanceof CompositeDataSupport) {
+				CompositeDataSupport cds = (CompositeDataSupport) attr;
+				if (key == null) {		
+					ErrorJmx error = new ErrorJmx();
+					error.setMessage("Key is null for composed data " + name);
+					response.setError(error);
+					return response;
+				}
+				KeyResponse keyResponse = new KeyResponse();
+				keyResponse.setKey(cds.get(key).toString());
+				objectAndKey.setKeyResponse(keyResponse);
+				
+			} else {
+				KeyResponse keyResponse = new KeyResponse();
+				keyResponse.setKey(attr.toString());
+				objectAndKey.setKeyResponse(keyResponse);
+			}
+			objectAndkeyList.add(objectAndKey);
+		} 
+		response.setResponse(objectAndkeyList);
+		return response;
+	}
 
 	@Override
 	public List<KeyResponse> getJmxKeys(String name, String attributeName) throws MalformedObjectNameException, NullPointerException, AttributeNotFoundException, InstanceNotFoundException, MBeanException, ReflectionException, IOException{
@@ -138,7 +176,46 @@ public class JMXQuery implements IJMXQuery
 		return response;
 	}
 
+	@Override
+	public GetMultiObjectKeysResponse getWildcardJmxKeys(String name, String attributeName) throws MalformedObjectNameException, NullPointerException, AttributeNotFoundException, InstanceNotFoundException, MBeanException, ReflectionException, IOException{
+		GetMultiObjectKeysResponse reponse= new GetMultiObjectKeysResponse();
+		ArrayList<MultiObjectKeys> multiObjectKeysList = new ArrayList<MultiObjectKeys>();
+		
+		ObjectName objectName = new ObjectName(name);
+		Set<ObjectName> objectNameList = connection.queryNames(objectName, null);
+		for(ObjectName iterObject:objectNameList){
+			objectName = iterObject;
+			List<KeyResponse> keyList = new ArrayList<KeyResponse>();
+			Object attr = connection.getAttribute(objectName, attributeName);
+			if (attr instanceof CompositeDataSupport) {
+				CompositeDataSupport cds = (CompositeDataSupport) attr;
+				CompositeType type = cds.getCompositeType();
+				Set<String> listKey = type.keySet();
+				for(Object key : listKey){
+					if(key instanceof String){
+						Object value = cds.get((String) key);
+						KeyResponse keyResponse = new KeyResponse();
+						keyResponse.setKey(key.toString());
+						keyResponse.setValue(value.toString());
+						keyList.add(keyResponse);
+					}
+				}		
+			} else {
+				KeyResponse keyResponse = new KeyResponse();
+				keyResponse.setValue(attr.toString());
+				keyList.add(keyResponse);
+			}
+			MultiObjectKeys multiObjectKeys = new MultiObjectKeys();
+			multiObjectKeys.setJmxKeys(keyList);
+			multiObjectKeys.setObjectName(objectName.getCanonicalName());
+			multiObjectKeysList.add(multiObjectKeys);
+		}
+		reponse.setMultiObjectKeys(multiObjectKeysList);
+		return reponse;
+	}
 
+
+	
 	@Override
 	public void disconnect() throws IOException
 	{	

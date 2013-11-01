@@ -41,6 +41,12 @@
   <bean name="/getKeysForObject" class="fr.openfarm.restlet.service.impl.GetKeysForObject" scope="prototype" autowire="byName">
   	<property name="proxyConfig" ref="proxyConfig"/>
   </bean>
-  
+  <bean name="/getWildcardJmxData" class="fr.openfarm.restlet.service.impl.GetWildcardJmxData" scope="prototype" autowire="byName">
+  	<property name="proxyConfig" ref="proxyConfig"/>
+  </bean>
+  <bean name="/getWildcardKeysForObjects" class="fr.openfarm.restlet.service.impl.GetWildcardKeysForObjects" scope="prototype" autowire="byName">
+  	<property name="proxyConfig" ref="proxyConfig"/>
+  </bean>
+      
   <bean name="proxyConfig" class="fr.openfarm.jmx.utils.ProxyConfig"/>
 </beans>
