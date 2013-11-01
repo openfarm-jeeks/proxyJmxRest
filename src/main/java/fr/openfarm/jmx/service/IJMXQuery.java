@@ -27,6 +27,8 @@ import javax.management.MBeanException;
 import javax.management.MalformedObjectNameException;
 import javax.management.ReflectionException;
 
+import fr.openfarm.bean.response.GetMultiObjectKeysResponse;
+import fr.openfarm.bean.response.GetWildCardMultiDataResponse;
 import fr.openfarm.bean.response.KeyResponse;
 
 public interface IJMXQuery {
@@ -77,5 +79,11 @@ public interface IJMXQuery {
 	 * @throws IOException
 	 */
 	void disconnect() throws IOException;
+
+	GetWildCardMultiDataResponse getWildCardJmxData(String name, String attributeName, String key) throws MalformedObjectNameException, NullPointerException,
+			AttributeNotFoundException, InstanceNotFoundException, MBeanException, ReflectionException, IOException;
+
+	GetMultiObjectKeysResponse getWildcardJmxKeys(String name, String attributeName) throws MalformedObjectNameException, NullPointerException, AttributeNotFoundException,
+			InstanceNotFoundException, MBeanException, ReflectionException, IOException;
 
 }
