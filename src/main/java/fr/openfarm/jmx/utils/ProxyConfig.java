@@ -59,10 +59,10 @@ public class ProxyConfig implements InitializingBean{
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		log.info("set Up Proxy Configuration");
+		jmxAccess = new HashMap<String, JmxLoginPass>();
 		String fileName = System.getProperty("configFilePath");
 		if(System.getProperty("configFilePath") != null){
 			try{
-				jmxAccess = new HashMap<String, JmxLoginPass>();
 				XMLConfiguration xmlConfiguration = new XMLConfiguration(fileName);
 				SubnodeConfiguration accessList = xmlConfiguration.configurationAt("accessList");
 				List<HierarchicalConfiguration> loginPassConfs = accessList.configurationsAt("accessConf");
