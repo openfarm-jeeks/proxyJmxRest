@@ -1,10 +1,10 @@
-Package: proxy-jms-rest
-Version: 1.0
+Package: proxy-jmx-rest
+Version: 1.0.4
 Section: net
 Priority: optional
 Maintainer: Marco RODRIGUES <marco.rodrigues@openfarm.fr>
 Architecture: all
 Distribution: squeeze
-Depends: tomcat6, libaopalliance-java, libcglib-java, libcommons-lang-java, libcommons-logging-java, libjettison-java, liblog4j1.2-java, libequinox-osgi-java, libspring-aop-2.5-java, libasm3-java, libspring-beans-2.5-java, libspring-context-2.5-java, libspring-context-support-2.5-java, libspring-core-2.5-java, libspring-web-2.5-java, libspring-webmvc-2.5-java, libstax-java, libxpp3-java, libxstream-java
+Depends: tomcat6, libaopalliance-java, libcglib-java, libcommons-lang-java, libcommons-logging-java, libcommons-configuration-java, libjettison-java, liblog4j1.2-java, libequinox-osgi-java, libspring-aop-2.5-java, libasm3-java, libspring-beans-2.5-java, libspring-context-2.5-java, libspring-context-support-2.5-java, libspring-core-2.5-java, libspring-web-2.5-java, libspring-webmvc-2.5-java, libstax-java, libxpp3-java, libxstream-java
 Description: REST proxy to JMX.
  This is a Rest proxy to access to JMX data from java servers (usefull for monitoring tools as nagios).

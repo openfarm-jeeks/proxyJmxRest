@@ -1,5 +1,5 @@
-Package: proxy-jms-rest
-Version: 1.0
+Package: proxy-jmx-rest
+Version: 1.0.4
 Section: net
 Priority: optional
 Maintainer: Marco RODRIGUES <marco.rodrigues@openfarm.fr>

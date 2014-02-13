@@ -6,7 +6,7 @@
 	<groupId>fr.openfarm</groupId>
 	<artifactId>proxyJmxRest</artifactId>
 	<packaging>war</packaging>
-	<version>1.0.1</version>
+	<version>1.0.4</version>
 	<name>Proxy JMX REST</name>
 
 	<repositories>
@@ -212,35 +212,35 @@
 				</executions>
 			</plugin>
 
-<!-- 			<plugin> -->
-<!-- 				<artifactId>jdeb</artifactId> -->
-<!-- 				<groupId>org.vafer</groupId> -->
-<!-- 				<version>1.0</version> -->
-<!-- 				<executions> -->
-<!-- 					<execution> -->
-<!-- 						<phase>package</phase> -->
-<!-- 						<goals> -->
-<!-- 							<goal>jdeb</goal> -->
-<!-- 						</goals> -->
-<!-- 						<configuration> -->
-<!-- 							<verbose>true</verbose> -->
-<!-- 							<controlDir>${basedir}/src/deb/control</controlDir> -->
-<!-- 							<dataSet> -->
-<!-- 								<data> -->
-<!-- 									<src>${project.build.directory}/${project.build.finalName}.war</src> -->
-<!-- 									<type>file</type> -->
-<!-- 									<mapper> -->
-<!-- 										<type>perm</type> -->
-<!-- 										<prefix>/var/lib/tomcat6/webapps</prefix> -->
-<!-- 										<user>tomcat6</user> -->
-<!-- 										<group>tomcat6</group> -->
-<!-- 									</mapper> -->
-<!-- 								</data> -->
-<!-- 							</dataSet> -->
-<!-- 						</configuration> -->
-<!-- 					</execution> -->
-<!-- 				</executions> -->
-<!-- 			</plugin> -->
+ 			<plugin> 
+ 				<artifactId>jdeb</artifactId> 
+ 				<groupId>org.vafer</groupId> 
+ 				<version>1.0</version> 
+ 				<executions> 
+ 					<execution> 
+ 						<phase>package</phase> 
+ 						<goals> 
+ 							<goal>jdeb</goal> 
+ 						</goals> 
+ 						<configuration> 
+ 							<verbose>true</verbose> 
+ 							<controlDir>${basedir}/src/deb/control</controlDir> 
+ 							<dataSet> 
+ 								<data> 
+ 									<src>${project.build.directory}/${project.build.finalName}.war</src> 
+ 									<type>file</type> 
+ 									<mapper> 
+ 										<type>perm</type> 
+ 										<prefix>/var/lib/tomcat6/webapps</prefix> 
+ 										<user>tomcat6</user> 
+ 										<group>tomcat6</group> 
+ 									</mapper> 
+ 								</data> 
+ 							</dataSet> 
+ 						</configuration> 
+ 					</execution> 
+ 				</executions> 
+ 			</plugin> 
 		</plugins>
 	</build>
 
@@ -322,6 +322,16 @@
 										</data>
 										<data>
 											<src>${project.build.directory}/${project.build.finalName}/WEB-INF/lib/commons-logging-1.1.1.jar</src>
+											<type>file</type>
+											<mapper>
+												<type>perm</type>
+												<prefix>/var/lib/tomcat6/lib</prefix>
+												<user>tomcat6</user>
+												<group>tomcat6</group>
+											</mapper>
+										</data>
+										<data>
+											<src>${project.build.directory}/${project.build.finalName}/WEB-INF/lib/commons-configuration-1.9.jar</src>
 											<type>file</type>
 											<mapper>
 												<type>perm</type>
@@ -664,6 +674,11 @@
                                                                                         <type>link</type>
                                                                                         <linkName>/var/lib/tomcat6/lib/commons-logging.jar</linkName>
                                                                                         <linkTarget>/usr/share/java/commons-logging.jar</linkTarget>
+                                                                                </data>
+                                                                                <data>
+                                                                                        <type>link</type>
+                                                                                        <linkName>/var/lib/tomcat6/lib/commons-configuration.jar</linkName>
+                                                                                        <linkTarget>/usr/share/java/commons-configuration.jar</linkTarget>
                                                                                 </data>
                                                                                 <data>
                                                                                         <type>link</type>
